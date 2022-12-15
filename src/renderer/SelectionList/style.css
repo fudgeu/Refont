@@ -1,0 +1,48 @@
+.SelectionListContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 5px;
+}
+
+.ListItem {
+  all: unset;
+  padding: 10px;
+  border-radius: 10px;
+  transition: background-color 0.1s;
+}
+
+.ListItem:hover {
+  background-color: #37393f;
+  cursor: pointer;
+}
+
+.ListItemSelected {
+  background-color: #27282d;
+}
+
+.ListItemSelected:hover {
+  background-color: #27282d;
+}
+
+.ScrollbarVerticalTrack {
+  width: 5px !important;
+  top: 10px;
+  bottom: 10px;
+  right: 4px;
+}
+
+.ScrollbarVerticalThumb {
+  background-color: #27282d;
+  border-radius: 5px;
+  transition: background-color 0.1s;
+}
+
+.ScrollbarVerticalThumb:hover {
+  transform: translateY() scale(150%);
+  background-color: #1f1f22;
+}
+
+.ScrollbarVerticalThumb:active {
+  background-color: #1f1f22;
+}

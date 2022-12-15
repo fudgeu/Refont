@@ -1,0 +1,17 @@
+.IconButton {
+  all: unset;
+  height: 20px;
+  width: 20px;
+  opacity: 0.7;
+  transition: opacity 0.1s, transform 0.1s;
+}
+
+.IconButton:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.IconButton:active {
+  transform: scale(0.9);
+}

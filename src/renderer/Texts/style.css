@@ -1,0 +1,23 @@
+.MainText {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+}
+
+.TitleText {
+  font-size: 20px;
+  font-weight: 800;
+  color: white;
+}
+
+.MinorText {
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.AppTitleText {
+  font-size: 32px;
+  font-weight: 800;
+  color: white;
+}

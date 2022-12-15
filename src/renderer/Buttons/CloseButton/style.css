@@ -1,0 +1,21 @@
+.CloseButton {
+  all: unset;
+  height: 20px;
+}
+
+.CloseButton:hover {
+  cursor: pointer;
+}
+
+.CloseButtonImg {
+  transition: transform 0.1s;
+  height: 20px;
+}
+
+.CloseButtonImg:hover {
+  transform: scale(1.1);
+}
+
+.CloseButtonImg:active {
+  transform: scale(0.9);
+}

@@ -1,0 +1,27 @@
+.PopupBackground {
+  position: fixed;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.8);
+  transition: opacity 0.15s;
+  opacity: 0;
+}
+
+.PopupBackgroundShow {
+  opacity: 1;
+}
+
+.PopupContent {
+  transform: scale(0.90);
+  transition: transform 0.15s;
+}
+
+.PopupContentShow {
+  transform: scale(1);
+}

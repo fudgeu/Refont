@@ -1,0 +1,50 @@
+.MessagePreviewContainer {
+  display: flex;
+  gap: 16px;
+  min-width: 300px;
+}
+
+.MPIcon {
+  margin-top: calc(4px - .125rem);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.MPUsernameAndTimestamp {
+  line-height: 1.375rem;
+  margin: 0;
+  padding: 0;
+}
+
+.MPUsername {
+  margin-right: .25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgb(231, 76, 60)
+}
+
+.MPTimestamp {
+  margin-left: .25rem;
+  height: 1.25rem;
+  font-size: 0.75rem;
+  vertical-align: baseline;
+  font-weight: 500;
+  color: #a3a6aa;
+}
+
+.MPText {
+  font-size: 1rem;
+  line-height: 1.375rem;
+}

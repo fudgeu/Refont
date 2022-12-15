@@ -1,0 +1,15 @@
+.SettingsCheckboxContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.SettingsCheckbox {
+  margin-left: auto;
+  width: 16px;
+  height: 16px;
+}
+
+.SettingsAppInfo {
+  margin-right: auto;
+}

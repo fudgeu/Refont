@@ -1,0 +1,28 @@
+.PopupContainer {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  background-color: #37393f;
+  padding: 25px;
+  border-radius: 10px;
+  gap: 20px;
+}
+
+.PopupTitlebar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: min-content;
+}
+
+.PopupCloseButton {
+  display: flex;
+  margin-left: auto;
+  align-self: right;
+}
+
+.PopupBottomButtons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

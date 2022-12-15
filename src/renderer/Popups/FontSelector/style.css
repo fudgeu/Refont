@@ -1,0 +1,112 @@
+.FontSelectorGroupContainer {
+  display: flex;
+}
+
+.FontSelectorContainer {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  height: 80vh;
+  background-color: #37393f;
+  padding: 25px;
+  border-radius: 10px;
+  gap: 20px;
+}
+
+.FSTitlebar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: min-content;
+}
+
+.FSCloseButton {
+  display: flex;
+  margin-left: auto;
+  align-self: right;
+}
+
+.FontSelectionList {
+  background-color: #40444b;
+  border-radius: 10px;
+  flex-grow: 1;
+}
+
+.FSBottomButtons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.FSApplyFontContainer {
+  margin-left: auto;
+}
+
+.FSNoResultsContainer {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.FSMessagePreviewHide {
+  max-width: 0;
+}
+
+.FSMessages {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.FSMessagePreviewContainer-appear {
+  padding: 25px 25px;
+  margin-left: 30px;
+}
+
+.FSMessagePreviewContainer-enter {
+  opacity: 0;
+  max-width: 0;
+  padding: 25px 0;
+  margin-left: 0px;
+}
+
+.FSMessagePreviewContainer-enter-active {
+  opacity: 1;
+  max-width: 300px;
+  padding: 25px 25px;
+  margin-left: 30px;
+  transition: opacity 0.2s, max-width 0.2s, padding 0.2s, margin 0.1s;
+}
+
+.FSMessagePreviewContainer-enter-done {
+  padding: 25px 25px;
+  margin-left: 30px;
+}
+
+.FSMessagePreviewContainer-exit {
+  opacity: 1;
+  max-width: 300px;
+  padding: 25px 25px;
+  margin-left: 30px;
+}
+
+.FSMessagePreviewContainer-exit-active {
+  opacity: 0;
+  max-width: 0;
+  padding: 25px 0;
+  margin-left: 0px;
+  transition: opacity 0.2s, max-width 0.2s, padding 0.2s, margin 0.1s;
+}
+
+.FSMessagePreview {
+  display: flex;
+  flex-direction: column;
+  height: min-content;
+  background-color: #37393f;
+  width: 300px;
+  border-radius: 10px;
+  gap: 20px;
+  overflow: hidden;
+}

@@ -1,0 +1,30 @@
+.Checkbox {
+  all: unset;
+  width: 10px;
+  height: 10px;
+  background-color: transparent;
+  border: solid 3px white;
+  border-radius: 5px;
+  transition: background-color 0.1s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Checkbox:hover {
+  cursor: pointer;
+}
+
+.CheckboxFilled {
+  background-color: white;
+}
+
+.CheckmarkIcon {
+  width: 16px;
+  height: 16px;
+  transition: opacity 0.1s;
+}
+
+.CheckmarkIconUnchecked {
+  opacity: 0;
+}

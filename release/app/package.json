@@ -1,0 +1,18 @@
+{
+  "name": "Refont",
+  "version": "1.0.0",
+  "description": "Quickly and automatically change Discord's font",
+  "license": "MIT",
+  "author": {
+    "name": "Fudgeu",
+    "email": "zambonie.patrick@gmail.com",
+    "url": "https://github.com/electron-react-boilerplate"
+  },
+  "main": "./dist/main/main.js",
+  "scripts": {
+    "rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
+    "postinstall": "npm run rebuild && npm run link-modules",
+    "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts"
+  },
+  "dependencies": {}
+}

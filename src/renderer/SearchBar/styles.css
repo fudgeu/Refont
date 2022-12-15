@@ -1,0 +1,32 @@
+.SearchBarContainer {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 10px;
+  background-color: #40444b;
+  border-radius: 10px;
+  padding: 10px;
+  align-items: center;
+}
+
+.SearchBarIcon {
+  height: 18px;
+  opacity: 0.6;
+  transition: transform 0.1s, opacity 0.1s;
+}
+
+.SearchBar {
+  all: unset;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+}
+
+.SearchBar:focus + .SearchBarIcon {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.SearchBar::placeholder {
+  color: #8d9197;
+}

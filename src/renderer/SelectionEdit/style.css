@@ -1,0 +1,37 @@
+.SelectionEditButton {
+  all: unset;
+  border: none;
+  background-color: #4f545c;
+  width: 150px;
+  height: 40px;
+  border-radius: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.1s;
+}
+
+.SelectionEditButton:hover {
+  background-color: #686d73;
+  cursor: pointer;
+}
+
+.SelectionEditButton:hover .SelectionEditIcon {
+  transform: scale(1.2);
+}
+
+.SelectionEditButton:active {
+  background-color: #72767d;
+}
+
+.SelectionEditButton:active .SelectionEditIcon {
+  transform: scale(0.9);
+}
+
+.SelectionEditIcon {
+  margin-left: auto;
+  height: 16px;
+  opacity: 0.8;
+  transition: transform 0.1s;
+}
