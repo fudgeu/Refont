@@ -1,5 +1,4 @@
 .MainButton {
-  background-color: #5765f2;
   color: white;
   height: 40px;
   font-size: 12px;
@@ -7,17 +6,25 @@
   border: none;
   appearance: none;
   transition: all ease-in 0.1s;
-  cursor: pointer;
   padding-left: 20px;
   padding-right: 20px;
   width: max-content;
 }
 
-.MainButton:hover {
-  background-color: #4752c4;
+.MBDisabled {
+  background-color: #8d8d97;
 }
 
-.MainButton:active {
+.MBEnabled {
+  background-color: #5765f2;
+}
+
+.MBEnabled:hover {
+  background-color: #4752c4;
+  cursor: pointer;
+}
+
+.MBEnabled:active {
   background-color: #3c45a5;
 }
 

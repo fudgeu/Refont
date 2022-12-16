@@ -10,6 +10,7 @@ import SelectionEdit from './SelectionEdit/SelectionEdit';
 import Settings from './Popups/Settings/Settings';
 import TitleText from './Texts/TitleText';
 import SettingsIcon from '../../assets/settings.svg';
+import ResetIcon from '../../assets/retry.svg';
 import IconButton from './Buttons/IconButton/IconButton';
 import AppTitleText from './Texts/AppTitleText';
 
@@ -48,6 +49,8 @@ const Hello = () => {
             setTimeout(() => attemptDiscordConnection(), 1500);
             return null;
           }
+          setWebsocketStatus('disconnected');
+          return null;
         }
         window.electron.ipcRenderer.sendMessage('websocket-url-found', [
           foundWebsocket.webSocketDebuggerUrl,
@@ -98,7 +101,6 @@ const Hello = () => {
 
     window.electron.ipcRenderer.on('websocket-error', () => {
       if (websocketRetries < 5) {
-        console.log('attmepting connection');
         setWebsocketStatus('attempting');
         setWebsocketRetries(websocketRetries + 1);
         setTimeout(() => {
@@ -187,7 +189,18 @@ const Hello = () => {
             createPopup('FontSelector');
           }}
         />
-        <MainButton label="Apply Font" onClick={changeFont} />
+        <MainButton
+          label="Apply Font"
+          disabled={websocketStatus !== 'connected'}
+          onClick={changeFont}
+        />
+        <IconButton
+          src={ResetIcon}
+          alt="Reset Font"
+          handleClick={() =>
+            window.electron.ipcRenderer.sendMessage('reset-font', [])
+          }
+        />
       </div>
       <DiscordStatus
         websocketStatus={websocketStatus}

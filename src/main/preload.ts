@@ -15,7 +15,8 @@ export type Channels =
   | 'set-start-on-boot'
   | 'get-start-on-boot'
   | 'retrieved-start-on-boot'
-  | 'updated-start-on-boot';
+  | 'updated-start-on-boot'
+  | 'reset-font';
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {

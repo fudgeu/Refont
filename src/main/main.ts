@@ -315,23 +315,37 @@ const sendFontChange = (newFont: string) => {
     },
   };
 
+  // document.querySelector('body')?.style.removeProperty('--font-primary');
+  // document.querySelector('body')?.style.removeProperty('--font-display');
+
+  socket.send(JSON.stringify(payload));
+  return true;
+};
+
+const resetFont = () => {
+  if (socket == null) return false;
+
+  const payload = {
+    id: 11620,
+    method: 'Runtime.evaluate',
+    params: {
+      expression: `document.querySelector('body')?.style.removeProperty('--font-primary'); document.querySelector('body')?.style.removeProperty('--font-display');`,
+    },
+  };
+
   socket.send(JSON.stringify(payload));
   return true;
 };
 
 // websocket
 const createWebSocket = (url: string) => {
-  console.log('Connecting to URL '.concat(url));
+  // console.log('Connecting to URL '.concat(url));
   socket = new WebSocket(url);
 
   // detect websocket opened
   socket.on('open', () => {
     mainWindow?.webContents.send('websocket-opened', []);
-
-    if (firstSocketConnection) {
-      sendFontChange(store.get('lastFontSet'));
-    }
-
+    sendFontChange(store.get('lastFontSet'));
     firstSocketConnection = false;
   });
 
@@ -361,6 +375,10 @@ ipcMain.on('websocket-url-found', async (event, arg) => {
 ipcMain.on('change-font', async (event, arg) => {
   store.set('lastFontSet', arg[0]);
   sendFontChange(arg[0]);
+});
+
+ipcMain.on('reset-font', async (event, arg) => {
+  resetFont();
 });
 
 ipcMain.on('get-all-fonts', async (event) => {
