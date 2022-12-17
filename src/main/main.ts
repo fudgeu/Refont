@@ -209,7 +209,7 @@ const findFullDiscordPath = async () => {
       })
     );
   } catch {
-    console.log('Unable to find Discord!');
+    console.error('Unable to find Discord!');
   }
   return foundPath;
 };
@@ -219,11 +219,11 @@ const startDiscord = (discordPath: string) => {
     `${discordPath} --remote-debugging-port=11620`,
     (error, stdout, stderr) => {
       if (error) {
-        console.error(`error: ${error.message}`);
+        console.error(`Error starting Discord: ${error.message}`);
         return;
       }
       if (stderr) {
-        console.error(`stderr: ${stderr}`);
+        console.error(`Error starting Discord: ${stderr}`);
       }
     }
   );
@@ -238,7 +238,9 @@ const initDiscord = async () => {
       startDiscord(discordPath);
     })
     .catch((error) => {
-      console.log(`Could not find Discord process: ${error}`);
+      console.warn(
+        `Error in restarting Discord, most likely Discord wasn't already open (can be ignored): ${error}`
+      );
       startDiscord(discordPath);
     });
 };
@@ -249,7 +251,6 @@ initDiscord();
 // post-startup logic
 //
 
-let firstSocketConnection = true;
 let socket: WebSocket;
 
 const setAutolaunch = (value: boolean) => {
@@ -346,17 +347,16 @@ const createWebSocket = (url: string) => {
   socket.on('open', () => {
     mainWindow?.webContents.send('websocket-opened', []);
     sendFontChange(store.get('lastFontSet'));
-    firstSocketConnection = false;
   });
 
   // detect error or closure
   socket.on('close', (err) => {
-    console.log(`websocket closed: ${err}`);
+    console.warn(`Discord websocket closed: ${err}`);
     mainWindow?.webContents.send('websocket-closed', []);
   });
 
   socket.on('error', (err) => {
-    console.log(`websocket error: ${err}`);
+    console.error(`Discord websocket error: ${err}`);
     mainWindow?.webContents.send('websocket-error', []);
   });
 };
@@ -391,7 +391,7 @@ ipcMain.on('get-all-fonts', async (event) => {
       event.reply('font-list-generated', fixedFonts);
     })
     .catch((error) => {
-      console.log(`Failed getting fonts: ${error}`);
+      console.error(`Failed getting fonts: ${error}`);
     });
 });
 
