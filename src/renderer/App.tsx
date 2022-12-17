@@ -16,7 +16,6 @@ import AppTitleText from './Texts/AppTitleText';
 
 const Hello = () => {
   const [websocketStatus, setWebsocketStatus] = useState('disconnected');
-  const [websocketSearchRetries, setWebsocketSearchRetries] = useState(0);
   const [websocketRetries, setWebsocketRetries] = useState(0);
   const [selectedFont, setSelectedFont] = useState('Comic Sans MS');
   const [fonts, setFonts] = useState<string[]>(['Comic Sans MS']);
@@ -29,7 +28,7 @@ const Hello = () => {
   // initial connections
   //
 
-  const attemptDiscordConnection = useCallback(() => {
+  const attemptDiscordConnection = useCallback((retries = 0) => {
     setWebsocketStatus('attempting');
     fetch('http://localhost:11620/json')
       .then((response) => {
@@ -44,9 +43,8 @@ const Hello = () => {
           return false;
         });
         if (foundWebsocket == null) {
-          if (websocketSearchRetries < 5) {
-            setWebsocketSearchRetries(websocketSearchRetries + 1);
-            setTimeout(() => attemptDiscordConnection(), 1500);
+          if (retries < 5) {
+            setTimeout(() => attemptDiscordConnection(retries + 1), 2500);
             return null;
           }
           setWebsocketStatus('disconnected');
@@ -61,7 +59,7 @@ const Hello = () => {
         // console.error('Unable to grab Discord websocket: '.concat(error));
         setWebsocketStatus('disconnected');
       });
-  }, [websocketSearchRetries]);
+  }, []);
 
   const retryDiscordConnection = () => {
     window.electron.ipcRenderer.sendMessage('restart-retry-connection', []);
@@ -129,10 +127,8 @@ const Hello = () => {
   //
 
   useEffect(() => {
-    if (websocketStatus === 'connected') {
-      window.electron.ipcRenderer.sendMessage('get-all-fonts', []);
-    }
-  }, [websocketStatus]);
+    window.electron.ipcRenderer.sendMessage('get-all-fonts', []);
+  }, []);
 
   //
   // misc functions
