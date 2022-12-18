@@ -290,21 +290,19 @@ const updateAutolaunchSettings = async (autolaunch: boolean) => {
   });
 };
 
-const setupAppAutolaunchProperties = async () => {
+const firstTimeSetup = async () => {
   regKey.valueExists('Discord', (error, exists) => {
-    if (exists) {
-      store.set('didDiscordAutostart', true);
-      updateAutolaunchSettings(true);
-      return;
-    }
-    store.set('didDiscordAutostart', false);
-    updateAutolaunchSettings(false);
+    store.set('didDiscordAutostart', exists);
+    setTimeout(
+      () => mainWindow?.webContents.send('init-first-time-setup', []),
+      2500
+    );
   });
 };
 
 if (store.get('firstLaunch')) {
   store.set('firstLaunch', false);
-  setupAppAutolaunchProperties();
+  firstTimeSetup();
 }
 
 // send font change

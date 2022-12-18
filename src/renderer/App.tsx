@@ -8,7 +8,6 @@ import FontSelector from './Popups/FontSelector/FontSelector';
 import PopupProvider from './PopupProvider/PopupProvider';
 import SelectionEdit from './SelectionEdit/SelectionEdit';
 import Settings from './Popups/Settings/Settings';
-import TitleText from './Texts/TitleText';
 import SettingsIcon from '../../assets/settings.svg';
 import ResetIcon from '../../assets/retry.svg';
 import IconButton from './Buttons/IconButton/IconButton';
@@ -37,7 +36,6 @@ const Hello = () => {
       })
       .then((json) => {
         // check results
-        console.log(json);
         const foundWebsocket = json.find((element: WebsocketResult) => {
           if (element.title !== 'Discord Updater') {
             return true;
@@ -78,10 +76,28 @@ const Hello = () => {
   }, [attemptDiscordConnection]);
 
   //
+  // popup management
+  //
+
+  const createPopup = (id: string) => {
+    setPopupId(id);
+    setShowPopup(true);
+  };
+
+  const closePopup = () => {
+    setTimeout(() => setPopupId(''), 100);
+    setShowPopup(false);
+  };
+
+  //
   // ipc listeners
   //
 
   useEffect(() => {
+    window.electron.ipcRenderer.on('init-first-time-setup', () => {
+      createPopup('FirstTimeSetup');
+    });
+
     window.electron.ipcRenderer.on('font-list-generated', (args) => {
       const fontList = args as string[];
       setFonts(fontList);
@@ -116,6 +132,7 @@ const Hello = () => {
     });
 
     return () => {
+      window.electron.ipcRenderer.removeAllListeners('init-first-time-setup');
       window.electron.ipcRenderer.removeAllListeners('font-list-generated');
       window.electron.ipcRenderer.removeAllListeners('retrieved-last-font-set');
       window.electron.ipcRenderer.removeAllListeners('websocket-opened');
@@ -133,18 +150,8 @@ const Hello = () => {
   }, []);
 
   //
-  // misc functions
+  // content generators
   //
-
-  const createPopup = (id: string) => {
-    setPopupId(id);
-    setShowPopup(true);
-  };
-
-  const closePopup = () => {
-    setTimeout(() => setPopupId(''), 100);
-    setShowPopup(false);
-  };
 
   const generatePopupComponent = () => {
     switch (popupId) {

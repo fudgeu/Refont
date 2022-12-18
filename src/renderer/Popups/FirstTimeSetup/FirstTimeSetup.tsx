@@ -21,6 +21,16 @@ const FirstTimeSetup = ({ closeSelf }: FirstTimeSetupProp) => {
   const [startOnBootup, setStartOnBootup] = useState(false);
   const [minimizeOnStart, setMinimizeOnStart] = useState(false);
 
+  const applyAndContinue = () => {
+    window.electron.ipcRenderer.sendMessage('set-start-on-boot', [
+      startOnBootup,
+    ]);
+    window.electron.ipcRenderer.sendMessage('set-start-minimized', [
+      minimizeOnStart,
+    ]);
+    closeSelf();
+  };
+
   return (
     <div className="PopupContainer">
       <div className="PopupTitlebar">
@@ -49,7 +59,7 @@ const FirstTimeSetup = ({ closeSelf }: FirstTimeSetupProp) => {
         (You can always change these in the settings!)
       </MinorText>
       <div className="PopupBottomButtons">
-        <MainButton label="Okay!" onClick={closeSelf} />
+        <MainButton label="Okay!" onClick={applyAndContinue} />
       </div>
     </div>
   );
