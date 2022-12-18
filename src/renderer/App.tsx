@@ -13,6 +13,7 @@ import SettingsIcon from '../../assets/settings.svg';
 import ResetIcon from '../../assets/retry.svg';
 import IconButton from './Buttons/IconButton/IconButton';
 import AppTitleText from './Texts/AppTitleText';
+import FirstTimeSetup from './Popups/FirstTimeSetup/FirstTimeSetup';
 
 const Hello = () => {
   const [websocketStatus, setWebsocketStatus] = useState('disconnected');
@@ -36,6 +37,7 @@ const Hello = () => {
       })
       .then((json) => {
         // check results
+        console.log(json);
         const foundWebsocket = json.find((element: WebsocketResult) => {
           if (element.title !== 'Discord Updater') {
             return true;
@@ -55,7 +57,7 @@ const Hello = () => {
         ]);
         return null;
       })
-      .catch((error) => {
+      .catch(() => {
         // console.error('Unable to grab Discord websocket: '.concat(error));
         setWebsocketStatus('disconnected');
       });
@@ -159,6 +161,9 @@ const Hello = () => {
       case 'Settings':
         return <Settings closeSelf={closePopup} />;
         break;
+      case 'FirstTimeSetup':
+        return <FirstTimeSetup closeSelf={closePopup} />;
+        break;
       default:
         return [];
     }
@@ -189,6 +194,12 @@ const Hello = () => {
           label="Apply Font"
           disabled={websocketStatus !== 'connected'}
           onClick={changeFont}
+        />
+        <MainButton
+          label="First Time Setup"
+          onClick={() => {
+            createPopup('FirstTimeSetup');
+          }}
         />
         <IconButton
           src={ResetIcon}

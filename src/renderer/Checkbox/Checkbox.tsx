@@ -1,11 +1,9 @@
 import clsx from 'clsx';
-import { useState } from 'react';
-import MainText from 'renderer/Texts/MainText';
 import CheckIcon from '../../../assets/check.svg';
 import './styles.css';
 
 type CheckboxProp = {
-  disabled: boolean;
+  disabled?: boolean;
   checked: boolean;
   onToggle: () => void;
 };
@@ -32,6 +30,10 @@ const Checkbox = ({ disabled, checked, onToggle }: CheckboxProp) => {
       />
     </button>
   );
+};
+
+Checkbox.defaultProps = {
+  disabled: false,
 };
 
 export default Checkbox;

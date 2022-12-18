@@ -166,6 +166,7 @@ const regKey = new Registry({
 // load config
 type Config = {
   startOnBoot: boolean;
+  startMinimized: boolean;
   lastFontSet: string;
   firstLaunch: boolean;
   didDiscordAutostart: boolean;
@@ -173,6 +174,10 @@ type Config = {
 
 const schema: Schema<Config> = {
   startOnBoot: {
+    type: 'boolean',
+    default: true,
+  },
+  startMinimized: {
     type: 'boolean',
     default: true,
   },
@@ -415,14 +420,29 @@ ipcMain.on('set-store', async (event, arg) => {
 });
 */
 
+//
+// IPC Store management
+//
+
+// last-font-set
 ipcMain.on('get-last-font-set', async (event, arg) => {
   event.reply('retrieved-last-font-set', [store.get('lastFontSet')]);
 });
 
+// start-on-boot
 ipcMain.on('set-start-on-boot', async (event, arg) => {
   updateAutolaunchSettings(arg[0]);
 });
 
 ipcMain.on('get-start-on-boot', async (event) => {
   event.reply('retrieved-start-on-boot', [store.get('startOnBoot')]);
+});
+
+// start-minimized
+ipcMain.on('set-start-minimized', async (event, arg) => {
+  store.set('startMinimized', arg[0]);
+});
+
+ipcMain.on('get-start-minimized', async (event) => {
+  event.reply('retrieved-start-minimized', [store.get('startMinimized')]);
 });

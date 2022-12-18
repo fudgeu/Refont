@@ -46,7 +46,7 @@ const Settings = ({ closeSelf }: SettingsProp) => {
       </div>
       <div className="SettingsContent">
         <div className="SettingsCheckboxContainer">
-          <MainText>Start on launch</MainText>
+          <MainText>Start on boot up</MainText>
           <Checkbox
             disabled={false}
             checked={startOnLaunch}
@@ -58,6 +58,8 @@ const Settings = ({ closeSelf }: SettingsProp) => {
               ]);
             }}
           />
+          <MainText>Start minimized</MainText>
+          <Checkbox checked={startOnLaunch} onToggle={() => {}} />
         </div>
       </div>
       <div className="PopupBottomButtons">
