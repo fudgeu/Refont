@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import CloseButton from 'renderer/Buttons/CloseButton/CloseButton';
 import MainButton from 'renderer/Buttons/MainButton/MainButton';
 import Checkbox from 'renderer/Checkbox/Checkbox';
+import LongSpanCheckbox from 'renderer/Checkbox/CheckboxLayouts/LongSpanCheckbox';
 import MainText from 'renderer/Texts/MainText';
 import MinorText from 'renderer/Texts/MinorText';
 import TitleText from 'renderer/Texts/TitleText';
@@ -46,8 +47,8 @@ const Settings = ({ closeSelf }: SettingsProp) => {
       </div>
       <div className="SettingsContent">
         <div className="SettingsCheckboxContainer">
-          <MainText>Start on boot up</MainText>
-          <Checkbox
+          <LongSpanCheckbox
+            label="Start on boot up"
             disabled={false}
             checked={startOnLaunch}
             onToggle={() => {
@@ -58,8 +59,11 @@ const Settings = ({ closeSelf }: SettingsProp) => {
               ]);
             }}
           />
-          <MainText>Start minimized</MainText>
-          <Checkbox checked={startOnLaunch} onToggle={() => {}} />
+          <LongSpanCheckbox
+            label="Start Minimized"
+            checked={startOnLaunch}
+            onToggle={() => {}}
+          />
         </div>
       </div>
       <div className="PopupBottomButtons">
