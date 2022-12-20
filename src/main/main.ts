@@ -9,7 +9,15 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  shell,
+  ipcMain,
+  Tray,
+  Menu,
+  nativeImage,
+} from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { exec } from 'child_process';
@@ -35,7 +43,43 @@ const appdataPath =
     ? `${process.env.HOME}/Library/Preferences`
     : `${process.env.HOME}/.local/share`);
 
+const basePath = app.getAppPath();
+
 let mainWindow: BrowserWindow | null = null;
+
+// load config
+type Config = {
+  startOnBoot: boolean;
+  startMinimized: boolean;
+  lastFontSet: string;
+  firstLaunch: boolean;
+  didDiscordAutostart: boolean;
+};
+
+const schema: Schema<Config> = {
+  startOnBoot: {
+    type: 'boolean',
+    default: true,
+  },
+  startMinimized: {
+    type: 'boolean',
+    default: true,
+  },
+  lastFontSet: {
+    type: 'string',
+    default: 'Comic Sans MS',
+  },
+  firstLaunch: {
+    type: 'boolean',
+    default: true,
+  },
+  didDiscordAutostart: {
+    type: 'boolean',
+    default: false,
+  },
+};
+
+const store = new Store<Config>({ schema });
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -94,11 +138,16 @@ const createWindow = async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
-    if (process.env.START_MINIMIZED) {
-      mainWindow.minimize();
+    if (process.env.START_MINIMIZED || store.get('startMinimized')) {
+      mainWindow.hide();
     } else {
       mainWindow.show();
     }
+  });
+
+  mainWindow.on('minimize', (event: Event) => {
+    event.preventDefault();
+    mainWindow?.hide();
   });
 
   mainWindow.on('closed', () => {
@@ -152,7 +201,6 @@ app
     });
   })
   .catch(console.log);
-
 //
 // startup logic
 //
@@ -162,40 +210,6 @@ const regKey = new Registry({
   hive: Registry.HKCU,
   key: '\\Software\\Microsoft\\Windows\\CurrentVersion\\Run',
 });
-
-// load config
-type Config = {
-  startOnBoot: boolean;
-  startMinimized: boolean;
-  lastFontSet: string;
-  firstLaunch: boolean;
-  didDiscordAutostart: boolean;
-};
-
-const schema: Schema<Config> = {
-  startOnBoot: {
-    type: 'boolean',
-    default: true,
-  },
-  startMinimized: {
-    type: 'boolean',
-    default: true,
-  },
-  lastFontSet: {
-    type: 'string',
-    default: 'Comic Sans MS',
-  },
-  firstLaunch: {
-    type: 'boolean',
-    default: true,
-  },
-  didDiscordAutostart: {
-    type: 'boolean',
-    default: false,
-  },
-};
-
-const store = new Store<Config>({ schema });
 
 // start discord
 // find full path
@@ -443,4 +457,36 @@ ipcMain.on('set-start-minimized', async (event, arg) => {
 
 ipcMain.on('get-start-minimized', async (event) => {
   event.reply('retrieved-start-minimized', [store.get('startMinimized')]);
+});
+
+// setup tray
+let tray = null;
+app.on('ready', () => {
+  tray = new Tray(nativeImage.createFromPath('assets/icon.png'));
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Show App',
+      click: () => {
+        mainWindow?.show();
+      },
+    },
+    {
+      label: 'Reset Font',
+      click: () => {
+        resetFont();
+      },
+    },
+    {
+      label: 'Quit',
+      click: () => {
+        app.quit();
+      },
+    },
+  ]);
+
+  tray.on('click', () => {
+    mainWindow?.show();
+  });
+  tray.setToolTip('Refont');
+  tray.setContextMenu(contextMenu);
 });

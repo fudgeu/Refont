@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import CloseButton from 'renderer/Buttons/CloseButton/CloseButton';
 import MainButton from 'renderer/Buttons/MainButton/MainButton';
-import Checkbox from 'renderer/Checkbox/Checkbox';
 import LongSpanCheckbox from 'renderer/Checkbox/CheckboxLayouts/LongSpanCheckbox';
-import MainText from 'renderer/Texts/MainText';
 import MinorText from 'renderer/Texts/MinorText';
 import TitleText from 'renderer/Texts/TitleText';
 import './styles.css';
@@ -14,6 +12,7 @@ type SettingsProp = {
 
 const Settings = ({ closeSelf }: SettingsProp) => {
   const [startOnLaunch, setStartOnLaunch] = useState(false);
+  const [startMinimized, setStartMinimized] = useState(false);
 
   // ipc listeners
   useEffect(() => {
@@ -27,14 +26,22 @@ const Settings = ({ closeSelf }: SettingsProp) => {
       setStartOnLaunch(startOnBoot);
     });
 
+    window.electron.ipcRenderer.on('retrieved-start-minimized', (args) => {
+      const startMinimizedArg: boolean = (args as boolean[])[0];
+      setStartMinimized(startMinimizedArg);
+    });
+
     return () => {
       window.electron.ipcRenderer.removeAllListeners('retrieved-start-on-boot');
       window.electron.ipcRenderer.removeAllListeners('updated-start-on-boot');
+      // eslint-disable-next-line prettier/prettier
+      window.electron.ipcRenderer.removeAllListeners('retrieved-start-minimized');
     };
   }, []);
 
   useEffect(() => {
     window.electron.ipcRenderer.sendMessage('get-start-on-boot', []);
+    window.electron.ipcRenderer.sendMessage('get-start-minimized', []);
   }, []);
 
   return (
@@ -60,9 +67,14 @@ const Settings = ({ closeSelf }: SettingsProp) => {
             }}
           />
           <LongSpanCheckbox
-            label="Start Minimized"
-            checked={startOnLaunch}
-            onToggle={() => {}}
+            label="Start minimized"
+            checked={startMinimized}
+            onToggle={() => {
+              setStartMinimized(!startMinimized);
+              window.electron.ipcRenderer.sendMessage('set-start-minimized', [
+                !startMinimized,
+              ]);
+            }}
           />
         </div>
       </div>

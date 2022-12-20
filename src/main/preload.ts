@@ -14,10 +14,11 @@ export type Channels =
   | 'retrieved-last-font-set'
   | 'set-start-on-boot'
   | 'get-start-on-boot'
-  | 'set-start-minimized'
-  | 'get-start-minimized'
   | 'retrieved-start-on-boot'
   | 'updated-start-on-boot'
+  | 'set-start-minimized'
+  | 'get-start-minimized'
+  | 'retrieved-start-minimized'
   | 'reset-font';
 
 contextBridge.exposeInMainWorld('electron', {
