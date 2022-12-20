@@ -403,7 +403,7 @@ ipcMain.on('get-all-fonts', async (event) => {
     .then((fonts) => {
       // remove quotes from fonts
       const fixedFonts = fonts.map((font) => {
-        return font.replaceAll('"', '');
+        return font.replaceAll('"', ''); // replace with better mechanism in future
       });
       event.reply('font-list-generated', fixedFonts);
     })

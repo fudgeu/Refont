@@ -37,7 +37,7 @@ const Hello = () => {
       .then((json) => {
         // check results
         const foundWebsocket = json.find((element: WebsocketResult) => {
-          if (element.title !== 'Discord Updater') {
+          if (element.title !== '' && element.title !== 'Discord Updater') {
             return true;
           }
           return false;
