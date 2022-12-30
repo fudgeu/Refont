@@ -9,6 +9,7 @@ import SelectionList from 'renderer/SelectionList/SelectionList';
 import MainText from 'renderer/Texts/MainText';
 import TitleText from 'renderer/Texts/TitleText';
 import MessagePreview from './MessagePreview/MessagePreview';
+import DiscordPFP from '../../../../assets/discordpfp.png';
 import './style.css';
 
 type FontSelectorProp = {
@@ -135,17 +136,17 @@ const FontSelector = ({
         <div className="FSMessagePreview">
           <TitleText>Message Preview</TitleText>
           <MessagePreview
-            icon="https://cdn.discordapp.com/avatars/239076520683896833/d2b1c2f4a9b11879b947df795d2052e3.webp?size=100"
+            icon={DiscordPFP}
             username="Rooty"
             timestamp="Yesterday at 6:52 PM"
             text="Amazingly few discotheques provide jukeboxes!"
             font={selectedInList}
           />
           <MessagePreview
-            icon="https://www.pngkey.com/png/detail/67-676007_finger-pointing-at-screen-png-banner-royalty-free.png"
-            username="You"
+            icon={DiscordPFP}
+            username="Rison"
             timestamp="5 minutes ago"
-            text="Wow"
+            text="Man."
             font={selectedInList}
           />
         </div>

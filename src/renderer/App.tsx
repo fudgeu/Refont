@@ -202,12 +202,6 @@ const Hello = () => {
           disabled={websocketStatus !== 'connected'}
           onClick={changeFont}
         />
-        <MainButton
-          label="First Time Setup"
-          onClick={() => {
-            createPopup('FirstTimeSetup');
-          }}
-        />
         <IconButton
           src={ResetIcon}
           alt="Reset Font"
