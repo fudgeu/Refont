@@ -20,6 +20,7 @@ const IntroText = [
 const FirstTimeSetup = ({ closeSelf }: FirstTimeSetupProp) => {
   const [startOnBootup, setStartOnBootup] = useState(false);
   const [minimizeOnStart, setMinimizeOnStart] = useState(false);
+  const [applyAutomatically, setApplyAutomatically] = useState(false);
 
   const applyAndContinue = () => {
     window.electron.ipcRenderer.sendMessage('set-start-on-boot', [
@@ -27,6 +28,9 @@ const FirstTimeSetup = ({ closeSelf }: FirstTimeSetupProp) => {
     ]);
     window.electron.ipcRenderer.sendMessage('set-start-minimized', [
       minimizeOnStart,
+    ]);
+    window.electron.ipcRenderer.sendMessage('set-automatically-apply-font', [
+      applyAutomatically,
     ]);
     closeSelf();
   };
@@ -54,6 +58,13 @@ const FirstTimeSetup = ({ closeSelf }: FirstTimeSetupProp) => {
           onToggle={() => setMinimizeOnStart(!minimizeOnStart)}
         />
         <MainText>Start minimized</MainText>
+      </div>
+      <div className="PopupCheckboxContainer">
+        <Checkbox
+          checked={applyAutomatically}
+          onToggle={() => setApplyAutomatically(!applyAutomatically)}
+        />
+        <MainText>Automatically apply font when opened</MainText>
       </div>
       <MinorText muted>
         (You can always change these in the settings!)

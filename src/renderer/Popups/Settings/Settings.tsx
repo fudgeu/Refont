@@ -13,6 +13,7 @@ type SettingsProp = {
 const Settings = ({ closeSelf }: SettingsProp) => {
   const [startOnLaunch, setStartOnLaunch] = useState(false);
   const [startMinimized, setStartMinimized] = useState(false);
+  const [applyAutomatically, setApplyAutomatically] = useState(false);
 
   // ipc listeners
   useEffect(() => {
@@ -31,17 +32,28 @@ const Settings = ({ closeSelf }: SettingsProp) => {
       setStartMinimized(startMinimizedArg);
     });
 
+    window.electron.ipcRenderer.on(
+      'retrieved-automatically-apply-font',
+      (args) => {
+        const applyAutomaticallArg: boolean = (args as boolean[])[0];
+        setApplyAutomatically(applyAutomaticallArg);
+      }
+    );
+
     return () => {
       window.electron.ipcRenderer.removeAllListeners('retrieved-start-on-boot');
       window.electron.ipcRenderer.removeAllListeners('updated-start-on-boot');
       // eslint-disable-next-line prettier/prettier
       window.electron.ipcRenderer.removeAllListeners('retrieved-start-minimized');
+      // eslint-disable-next-line prettier/prettier
+      window.electron.ipcRenderer.removeAllListeners('retrieved-automatically-apply-font');
     };
   }, []);
 
   useEffect(() => {
     window.electron.ipcRenderer.sendMessage('get-start-on-boot', []);
     window.electron.ipcRenderer.sendMessage('get-start-minimized', []);
+    window.electron.ipcRenderer.sendMessage('get-automatically-apply-font', []);
   }, []);
 
   return (
@@ -74,6 +86,17 @@ const Settings = ({ closeSelf }: SettingsProp) => {
               window.electron.ipcRenderer.sendMessage('set-start-minimized', [
                 !startMinimized,
               ]);
+            }}
+          />
+          <LongSpanCheckbox
+            label="Automatically apply font when opened"
+            checked={applyAutomatically}
+            onToggle={() => {
+              setApplyAutomatically(!applyAutomatically);
+              window.electron.ipcRenderer.sendMessage(
+                'set-automatically-apply-font',
+                [!applyAutomatically]
+              );
             }}
           />
         </div>

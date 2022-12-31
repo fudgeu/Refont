@@ -19,6 +19,9 @@ export type Channels =
   | 'set-start-minimized'
   | 'get-start-minimized'
   | 'retrieved-start-minimized'
+  | 'set-automatically-apply-font'
+  | 'get-automatically-apply-font'
+  | 'retrieved-automatically-apply-font'
   | 'reset-font';
 
 contextBridge.exposeInMainWorld('electron', {

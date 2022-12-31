@@ -51,6 +51,7 @@ let mainWindow: BrowserWindow | null = null;
 type Config = {
   startOnBoot: boolean;
   startMinimized: boolean;
+  automaticallyApplyFont: boolean;
   lastFontSet: string;
   firstLaunch: boolean;
   didDiscordAutostart: boolean;
@@ -62,6 +63,10 @@ const schema: Schema<Config> = {
     default: true,
   },
   startMinimized: {
+    type: 'boolean',
+    default: true,
+  },
+  automaticallyApplyFont: {
     type: 'boolean',
     default: true,
   },
@@ -363,7 +368,8 @@ const createWebSocket = (url: string) => {
   // detect websocket opened
   socket.on('open', () => {
     mainWindow?.webContents.send('websocket-opened', []);
-    sendFontChange(store.get('lastFontSet'));
+    if (store.get('automaticallyApplyFont'))
+      sendFontChange(store.get('lastFontSet'));
   });
 
   // detect error or closure
@@ -459,7 +465,21 @@ ipcMain.on('get-start-minimized', async (event) => {
   event.reply('retrieved-start-minimized', [store.get('startMinimized')]);
 });
 
-// setup tray
+// automatically-apply-font
+ipcMain.on('set-automatically-apply-font', async (event, arg) => {
+  store.set('automaticallyApplyFont', arg[0]);
+});
+
+ipcMain.on('get-automatically-apply-font', async (event, arg) => {
+  event.reply('retrieved-automatically-apply-font', [
+    store.get('automaticallyApplyFont'),
+  ]);
+});
+
+//
+// Setup tray
+//
+
 let tray = null;
 app.on('ready', () => {
   tray = new Tray(nativeImage.createFromPath('assets/icon.png'));
