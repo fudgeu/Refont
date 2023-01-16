@@ -15,7 +15,7 @@ import AppTitleText from './Texts/AppTitleText';
 import FirstTimeSetup from './Popups/FirstTimeSetup/FirstTimeSetup';
 import Toast from './Toasts/Toast';
 
-const Hello = () => {
+const Main = () => {
   const [websocketStatus, setWebsocketStatus] = useState('disconnected');
   const [websocketRetries, setWebsocketRetries] = useState(0);
   const [selectedFont, setSelectedFont] = useState('Comic Sans MS');
@@ -238,9 +238,12 @@ const Hello = () => {
 
   const generateToasts = () => {
     const generatedToasts: React.ReactNode[] = [];
-    activeToasts.forEach((val) => {
+    activeToasts.forEach((val, k) => {
       generatedToasts.push(
         <Toast
+          // key is a UUID string
+          // eslint-disable-next-line react/no-array-index-key
+          key={k}
           label={val.label}
           show={val.show}
           destroySelf={() => {
@@ -288,7 +291,7 @@ const Hello = () => {
           alt="Reset Font"
           handleClick={() => {
             window.electron.ipcRenderer.sendMessage('reset-font', []);
-            setToast('Font has reset');
+            setToast('Font reset!');
           }}
         />
       </div>
@@ -306,7 +309,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Hello />} />
+        <Route path="/" element={<Main />} />
       </Routes>
     </Router>
   );

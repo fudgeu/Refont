@@ -10,6 +10,7 @@ import MainText from 'renderer/Texts/MainText';
 import TitleText from 'renderer/Texts/TitleText';
 import MessagePreview from './MessagePreview/MessagePreview';
 import DiscordPFP from '../../../../assets/discordpfp.png';
+import DiscordPFP2 from '../../../../assets/discordpfp2.png';
 import './style.css';
 
 type FontSelectorProp = {
@@ -73,33 +74,6 @@ const FontSelector = ({
     );
   };
 
-  const generateMessagePreview = () => {
-    if (showPreview) {
-      return (
-        <div className="FSMessagePreview">
-          <TitleText>Message Preview</TitleText>
-          <div className="FSMessages">
-            <MessagePreview
-              icon="https://cdn.discordapp.com/avatars/239076520683896833/d2b1c2f4a9b11879b947df795d2052e3.webp?size=100"
-              username="Rooty"
-              timestamp="Yesterday at 6:52 PM"
-              text="Amazingly few discotheques provide jukeboxes!"
-              font={selectedInList}
-            />
-            <MessagePreview
-              icon="https://www.pngkey.com/png/detail/67-676007_finger-pointing-at-screen-png-banner-royalty-free.png"
-              username="You"
-              timestamp="5 minutes ago"
-              text="Wow"
-              font={selectedInList}
-            />
-          </div>
-        </div>
-      );
-    }
-    return [];
-  };
-
   return (
     <div className="FontSelectorGroupContainer">
       <div className="FontSelectorContainer">
@@ -143,10 +117,10 @@ const FontSelector = ({
             font={selectedInList}
           />
           <MessagePreview
-            icon={DiscordPFP}
-            username="Rison"
-            timestamp="5 minutes ago"
-            text="Man."
+            icon={DiscordPFP2}
+            username="Weasel"
+            timestamp="Today at 8:47 AM"
+            text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
             font={selectedInList}
           />
         </div>
@@ -156,23 +130,3 @@ const FontSelector = ({
 };
 
 export default FontSelector;
-
-/*
-<div
-        className={clsx({
-          FSMessagePreview: true,
-          FSMessagePreviewHide: !showPreview,
-        })}
-      >
-        <TitleText>Message Preview</TitleText>
-        <div className="FSMessages">
-          <MessagePreview
-            icon="https://cdn.discordapp.com/avatars/239076520683896833/d2b1c2f4a9b11879b947df795d2052e3.webp?size=100"
-            username="Rooty"
-            timestamp="Yesterday at 6:52 PM"
-            text="Amazingly few discotheques provide jukeboxes!"
-            font={selectedInList}
-          />
-        </div>
-      </div>
-      */

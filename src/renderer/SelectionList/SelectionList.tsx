@@ -15,6 +15,7 @@ const SelectionList = ({ items, selected, setSelected }: SelectionListProp) => {
     return items.map((item) => {
       return (
         <ListItem
+          key={item.id}
           itemTemplate={item}
           selected={item.id === selected}
           setSelected={setSelected}
