@@ -17,6 +17,12 @@ declare global {
     id: string;
     label: string;
   };
+
+  // toast template
+  type ToastTemplate = {
+    label: string;
+    show: boolean;
+  };
 }
 
 export {};

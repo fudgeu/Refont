@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import './Popups/PopupStyles.css';
@@ -13,12 +13,22 @@ import ResetIcon from '../../assets/retry.svg';
 import IconButton from './Buttons/IconButton/IconButton';
 import AppTitleText from './Texts/AppTitleText';
 import FirstTimeSetup from './Popups/FirstTimeSetup/FirstTimeSetup';
+import Toast from './Toasts/Toast';
 
 const Hello = () => {
   const [websocketStatus, setWebsocketStatus] = useState('disconnected');
   const [websocketRetries, setWebsocketRetries] = useState(0);
   const [selectedFont, setSelectedFont] = useState('Comic Sans MS');
   const [fonts, setFonts] = useState<string[]>(['Comic Sans MS']);
+
+  // toasts
+  const [activeToasts, setActiveToasts] = useState<Map<string, ToastTemplate>>(
+    new Map<string, ToastTemplate>()
+  );
+  const [toastTimeout, setToastTimeout] = useState<NodeJS.Timer>();
+  const [newToastTimeoutPending, setNewToastTimeoutPending] = useState(false);
+  const activeToastsRef = useRef<Map<string, ToastTemplate>>();
+  activeToastsRef.current = activeToasts;
 
   // popup states
   const [popupId, setPopupId] = useState('');
@@ -88,6 +98,56 @@ const Hello = () => {
     setTimeout(() => setPopupId(''), 100);
     setShowPopup(false);
   };
+
+  //
+  // toast management
+  //
+
+  const clearToasts = useCallback(
+    (toasts: Map<string, ToastTemplate> | undefined) => {
+      if (toasts === undefined) return;
+      const tempToasts = new Map<string, ToastTemplate>();
+      toasts.forEach((v, k) => {
+        tempToasts.set(k, { label: v.label, show: false });
+      });
+      setActiveToasts(tempToasts);
+    },
+    []
+  );
+
+  const removeFromToasts = useCallback(
+    (id: string) => {
+      const tempToasts = new Map<string, ToastTemplate>();
+      activeToasts.forEach((v, k) => {
+        if (k !== id && v.show) tempToasts.set(k, v);
+      });
+      setActiveToasts(tempToasts);
+    },
+    [activeToasts]
+  );
+
+  const setToast = useCallback(
+    (label: string) => {
+      // unshow all other toasts
+      const toasts = new Map<string, ToastTemplate>();
+      activeToasts.forEach((v, k) => {
+        toasts.set(k, { label: v.label, show: false });
+      });
+
+      // add new toast
+      toasts.set(crypto.randomUUID(), { label, show: true });
+
+      // update to toast list
+      setActiveToasts(toasts);
+      setNewToastTimeoutPending(true);
+
+      clearTimeout(toastTimeout);
+      setToastTimeout(
+        setTimeout(() => clearToasts(activeToastsRef.current), 2500)
+      );
+    },
+    [activeToasts, clearToasts, toastTimeout]
+  );
 
   //
   // ipc listeners
@@ -176,8 +236,29 @@ const Hello = () => {
     }
   };
 
+  const generateToasts = () => {
+    const generatedToasts: React.ReactNode[] = [];
+    activeToasts.forEach((val) => {
+      generatedToasts.push(
+        <Toast
+          label={val.label}
+          show={val.show}
+          destroySelf={() => {
+            removeFromToasts(val.label);
+          }}
+        />
+      );
+    });
+    return generatedToasts;
+  };
+
+  //
+  // button handlers
+  //
+
   const changeFont = () => {
     window.electron.ipcRenderer.sendMessage('change-font', [selectedFont]);
+    setToast('Font applied!');
   };
 
   return (
@@ -205,15 +286,17 @@ const Hello = () => {
         <IconButton
           src={ResetIcon}
           alt="Reset Font"
-          handleClick={() =>
-            window.electron.ipcRenderer.sendMessage('reset-font', [])
-          }
+          handleClick={() => {
+            window.electron.ipcRenderer.sendMessage('reset-font', []);
+            setToast('Font has reset');
+          }}
         />
       </div>
       <DiscordStatus
         websocketStatus={websocketStatus}
         retryConnection={retryDiscordConnection}
       />
+      {generateToasts()}
       <PopupProvider show={showPopup}>{generatePopupComponent()}</PopupProvider>
     </div>
   );

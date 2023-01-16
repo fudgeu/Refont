@@ -1,0 +1,44 @@
+.Toast {
+  display: flex;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  width: 150px;
+  height: 28px;
+  background-color: #25252c;
+
+  position: fixed;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, -15px);
+}
+
+.ToastTransition-appear {
+  transform: translate(-50%, 50px);
+}
+
+.ToastTransition-appear-active {
+  transform: translate(-50%, -15px);
+  transition: transform 0.2s;
+}
+
+.ToastTransition-appear-done {
+  transform: translate(-50%, -15px);
+}
+
+.ToastTransition-exit {
+  transform: translate(-50%, -15px);
+  opacity: 1;
+}
+
+.ToastTransition-exit-active {
+  transform: translate(-50%, -15px) scale(0.4);
+  opacity: 0;
+  transition: 0.2s;
+}
+
+.ToastTransition-exit-done {
+  transform: translate(-50%, -15px) scale(0.4);
+  opacity: 0;
+}
