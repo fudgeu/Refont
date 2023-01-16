@@ -1,29 +1,23 @@
 {
-  "description": "A foundation for scalable desktop apps",
+  "description": "Quickly and automatically change Discord's font",
   "keywords": [
-    "electron",
-    "boilerplate",
-    "react",
-    "typescript",
-    "ts",
-    "sass",
-    "webpack",
-    "hot",
-    "reload"
+    "discord",
+    "font",
+    "text"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/fudgeu/Refont",
   "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
+    "url": "https://github.com/fudgeu/Refont/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/fudgeu/Refont.git"
   },
   "license": "MIT",
   "author": {
     "name": "Fudgeu",
     "email": "zambonie.patrick@gmail.com",
-    "url": "https://electron-react-boilerplate.js.org"
+    "url": "https://github.com/fudgeu"
   },
   "main": "./src/main/main.ts",
   "scripts": {
@@ -112,13 +106,10 @@
     "electron-updater": "^5.2.3",
     "find-process": "^1.4.7",
     "font-list": "^1.4.5",
-    "node-fetch": "^2.6.1",
     "react": "^18.2.0",
     "react-custom-scrollbars-2": "^4.5.0",
-    "react-detect-click-outside": "^1.1.7",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.0",
-    "react-scrollbars-custom": "^4.1.1",
     "react-transition-group": "^4.4.5",
     "winreg": "^1.2.4"
   },
@@ -253,7 +244,7 @@
     "publish": {
       "provider": "github",
       "owner": "fudgeu",
-      "repo": "electron-react-boilerplate"
+      "repo": "refont"
     }
   },
   "collective": {

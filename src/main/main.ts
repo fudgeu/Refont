@@ -418,26 +418,6 @@ ipcMain.on('get-all-fonts', async (event) => {
     });
 });
 
-// ipc config interfaces
-/*
-ipcMain.on('get-store', async (event, arg) => {
-  if (store.has(arg[0])) {
-    event.reply('store-value-retrieved', [arg[0], store.get(arg[0])]);
-  }
-});
-
-ipcMain.on('set-store', async (event, arg) => {
-  try {
-    store.set(arg[0], arg[1]);
-  } catch (err) {
-    console.error(
-      `Failed to store ${arg[1]} into ${arg[0]}! This should not happen, if you see this, please report this bug. Error follows:`
-    );
-    console.error(err);
-  }
-});
-*/
-
 //
 // IPC Store management
 //
@@ -456,7 +436,7 @@ ipcMain.on('get-start-on-boot', async (event) => {
   event.reply('retrieved-start-on-boot', [store.get('startOnBoot')]);
 });
 
-// start-minimized
+// start-minimize//////
 ipcMain.on('set-start-minimized', async (event, arg) => {
   store.set('startMinimized', arg[0]);
 });
