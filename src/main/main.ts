@@ -43,8 +43,6 @@ const appdataPath =
     ? `${process.env.HOME}/Library/Preferences`
     : `${process.env.HOME}/.local/share`);
 
-const basePath = app.getAppPath();
-
 let mainWindow: BrowserWindow | null = null;
 
 // load config
@@ -60,15 +58,15 @@ type Config = {
 const schema: Schema<Config> = {
   startOnBoot: {
     type: 'boolean',
-    default: true,
+    default: false,
   },
   startMinimized: {
     type: 'boolean',
-    default: true,
+    default: false,
   },
   automaticallyApplyFont: {
     type: 'boolean',
-    default: true,
+    default: false,
   },
   lastFontSet: {
     type: 'string',
@@ -129,7 +127,7 @@ const createWindow = async () => {
     width: 1024,
     height: 728,
     title: 'Refont',
-    icon: getAssetPath('icon.png'),
+    icon: getAssetPath('icon.ico'),
     webPreferences: {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
@@ -461,8 +459,13 @@ ipcMain.on('get-automatically-apply-font', async (event, arg) => {
 //
 
 let tray = null;
+
 app.on('ready', () => {
-  tray = new Tray(nativeImage.createFromPath('assets/icon.png'));
+  tray = new Tray(
+    nativeImage.createFromPath(
+      path.join(process.resourcesPath, 'assets', 'icon.ico')
+    )
+  );
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Show App',
